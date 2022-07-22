@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const taskSchema = new mongoose.Schema(
   {
-    Task: {
+    task: {
       type: String,
       required: true,
     },
@@ -14,9 +14,10 @@ const taskSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
-  },
-  {
-    timestamps: true,
+    createdAt: {
+      type: Date,
+      default: Date.now
+    },
   }
 );
 const Task = mongoose.model("Task", taskSchema);
