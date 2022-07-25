@@ -21,6 +21,7 @@ router.post("/users", async (req, res) => {
 });
 
 // Sign In and Sign Out User Routes:
+
 router.post("/users/login", async (req, res) => {
   try {
     const user = await User.findByCredentials(
@@ -28,27 +29,27 @@ router.post("/users/login", async (req, res) => {
       req.body.password
     );
     const token = await user.generateAuthToken();
+
     res.send({ user, token });
   } catch (err) {
     res.status(400).send({
-      error: "Create user first"});
+      error: "Create user first",
+    });
   }
 });
 
 router.post("/users/logout", auth, async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter((token) => {
-      return token.token !== req.token;
-    });
+    req.user.tokens = req.user.tokens.filter((token) => {});
     await req.user.save();
-    res.status(200).send(`User has been logOut successfully :
-      ${req.user}`);
+    res.status(200).send(`User has been logOut successfully :${req.user}`);
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
 // get and delete users from the database
+
 router.get("/users/me", auth, async (req, res) => {
   res.send(req.user);
 });

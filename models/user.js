@@ -65,22 +65,12 @@ userSchema.statics.findByCredentials = async (email, password) => {
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, {
-    expiresIn: "300s"
+    expiresIn: "24h"
   });
   user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
 };
-
-// userSchema.methods.generateRefreshToken = async function () {
-//   const refreshToken = jwt.sign(
-//     { _id: user._id.toString() },process.env.JWT_REFRESH,{ expiresIn: "1d"});
-
-//   user.refreshToken = user.refreshToken;
-//   await user.save();
-//   return refreshToken;
-// };
-
 
 // Hashing the password before saving
 userSchema.pre("save", async function (next) {
